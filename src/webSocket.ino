@@ -7,13 +7,13 @@ const char* ssid = "REPLACE_WITH_SSID";
 const char* password = "REPLACE_WITH_PASSWORD";
 
 
-// Create AsyncWebServer object on port 80
-AsyncWebServer server(80);
+// Create AsyncWebServer object on port 
+AsyncWebServer server();
 AsyncWebSocket ws("/ws");
 
 
 
-  funvoid handleWebSocketMessage(void *arg, uint8_t *data, size_t len) {
+funvoid handleWebSocketMessage(void *arg, uint8_t *data, size_t len) {
   AwsFrameInfo *info = (AwsFrameInfo*)arg;
   if (info->final && info->index == 0 && info->len == len && info->opcode == WS_TEXT) {
     data[len] = 0;
@@ -51,8 +51,6 @@ void setup(){
   // Serial port for debugging purposes
   Serial.begin(115200);
 
-  pinMode(ledPin, OUTPUT);
-  digitalWrite(ledPin, LOW);
   
   // Connect to Wi-Fi
   WiFi.begin(ssid, password);
