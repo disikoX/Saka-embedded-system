@@ -48,7 +48,7 @@ const char index_html[] PROGMEM = R"rawliteral(
 </head>
 <body>
   <div class="topnav">
-    <h1>IT'S WORKS !</h1>
+    <h1>SAKA WEBSOCKET</h1>
   </div>
 </body>
 </html>
