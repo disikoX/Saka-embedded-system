@@ -2,6 +2,9 @@
 #define ENABLE_USER_AUTH
 
 #include <FirebaseClient.h>
+#include <WiFiClientSecure.h>
+#include <WiFi.h>
+#include <ExampleFunctions.h> 
 
 #define WIFI_SSID "WIFI_AP"
 #define WIFI_PASSWORD "WIFI_PASSWORD"
@@ -16,114 +19,72 @@ UserAuth user_auth(API_KEY, USER_EMAIL, USER_PASSWORD, 3000 /* expire period in 
 
 FirebaseApp app;
 
-SSL_CLIENT ssl_client;
+WiFiClientSecure ssl_client;
 
 using AsyncClient = AsyncClientClass;
 AsyncClient aClient(ssl_client);
+AsyncResult dbResult;
 
 bool taskComplete = false;
 
-void setup()
-{
-    Serial.begin(115200);
-    WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+void setup(){
+  Serial.begin(115200);
 
-    Serial.print("Connecting to Wi-Fi");
-    while (WiFi.status() != WL_CONNECTED)
-    {
-        Serial.print(".");
-        delay(300);
-    }
-    Serial.println();
-    Serial.print("Connected with IP: ");
-    Serial.println(WiFi.localIP());
-    Serial.println();
+  // Connect to Wi-Fi
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  Serial.print("Connecting to Wi-Fi");
+  while (WiFi.status() != WL_CONNECTED)    {
+    Serial.print(".");
+    delay(300);
+  }
+  Serial.println();
+  Serial.print("Connected with IP: ");
+  Serial.println(WiFi.localIP());
+  Serial.println();
 
-    Firebase.printf("Firebase Client v%s\n", FIREBASE_CLIENT_VERSION);
+  // Configure SSL client
+  ssl_client.setInsecure();
+  #if defined(ESP32)
+    ssl_client.setConnectionTimeout(1000);
+    ssl_client.setHandshakeTimeout(5);
+  #elif defined(ESP8266)
+    ssl_client.setTimeout(1000); // Set connection timeout
+    ssl_client.setBufferSizes(4096, 1024); // Set buffer sizes
+  #endif
 
-    set_ssl_client_insecure_and_buffer(ssl_client);
-
-    // You can validate or verify user before Initializing app.
-    Serial.print("Verifying the current user... ");
-    bool ret = verifyUser(API_KEY, USER_EMAIL, USER_PASSWORD);
-    Serial.println(ret ? "success" : "failed");
-
-    Serial.println("Initializing app...");
-    initializeApp(aClient, app, getAuth(user_auth), auth_debug_print, "🔐 authTask");
-
-    // Or intialize the app and wait.
-    // initializeApp(aClient, app, getAuth(user_auth), 120 * 1000, auth_debug_print);
+  // Initialize Firebase
+  initializeApp(aClient, app, getAuth(user_auth), processData, "🔐 authTask");
 }
 
-void loop()
-{
-    // To maintain the authentication process.
-    app.loop();
+void loop(){
+  // Maintain authentication and async tasks
+  app.loop();
 
-    if (app.ready() && !taskComplete)
-    {
-        taskComplete = true;
-
-        // Print authentication info
-        Serial.println("Authentication Information");
-        Firebase.printf("User UID: %s\n", app.getUid().c_str());
-        Firebase.printf("Auth Token: %s\n", app.getToken().c_str());
-        Firebase.printf("Refresh Token: %s\n", app.getRefreshToken().c_str());
-        print_token_type(app);
-    }
+  // Check if authentication is ready
+  if (app.ready() && !taskComplete){
+    taskComplete = true;
+    // Print authentication info
+    Serial.println("Authentication Information");
+    Firebase.printf("User UID: %s\n", app.getUid().c_str());
+    Firebase.printf("Auth Token: %s\n", app.getToken().c_str());
+    Firebase.printf("Refresh Token: %s\n", app.getRefreshToken().c_str());
+    print_token_type(app);
+  }
 }
 
-bool verifyUser(const String &apiKey, const String &email, const String &password)
-{
-    if (ssl_client.connected())
-        ssl_client.stop();
+void processData(AsyncResult &aResult){
+  if (!aResult.isResult())
+    return;
 
-    String host = "www.googleapis.com";
-    bool ret = false;
+  if (aResult.isEvent())
+    Firebase.printf("Event task: %s, msg: %s, code: %d\n", aResult.uid().c_str(), aResult.eventLog().message().c_str(), aResult.eventLog().code());
 
-    if (ssl_client.connect(host.c_str(), 443) > 0)
-    {
-        String payload = "{\"email\":\"";
-        payload += email;
-        payload += "\",\"password\":\"";
-        payload += password;
-        payload += "\",\"returnSecureToken\":true}";
+  if (aResult.isDebug())
+    Firebase.printf("Debug task: %s, msg: %s\n", aResult.uid().c_str(), aResult.debug().c_str());
 
-        String header = "POST /identitytoolkit/v3/relyingparty/verifyPassword?key=";
-        header += apiKey;
-        header += " HTTP/1.1\r\n";
-        header += "Host: ";
-        header += host;
-        header += "\r\n";
-        header += "Content-Type: application/json\r\n";
-        header += "Content-Length: ";
-        header += payload.length();
-        header += "\r\n\r\n";
+  if (aResult.isError())
+    Firebase.printf("Error task: %s, msg: %s, code: %d\n", aResult.uid().c_str(), aResult.error().message().c_str(), aResult.error().code());
 
-        if (ssl_client.print(header) == header.length())
-        {
-            if (ssl_client.print(payload) == payload.length())
-            {
-                unsigned long ms = millis();
-                while (ssl_client.connected() && ssl_client.available() == 0 && millis() - ms < 5000)
-                {
-                    delay(1);
-                }
-
-                ms = millis();
-                while (ssl_client.connected() && ssl_client.available() && millis() - ms < 5000)
-                {
-                    String line = ssl_client.readStringUntil('\n');
-                    if (line.length())
-                    {
-                        ret = line.indexOf("HTTP/1.1 200 OK") > -1;
-                        break;
-                    }
-                }
-                ssl_client.stop();
-            }
-        }
-    }
-
-    return ret;
+  if (aResult.available())
+    Firebase.printf("task: %s, payload: %s\n", aResult.uid().c_str(), aResult.c_str());
 }
