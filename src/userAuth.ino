@@ -69,7 +69,7 @@ void loop(){
   if (app.ready() && !taskComplete){
     taskComplete = true;
     // Send an int to the database
-    Database.set<String>(aClient, "/users/distributors/settings/quantity", value, processData, "RTDB_Send_int");
+    Database.set<int>(aClient, "/users/distributors/settings/quantity", value, processData, "RTDB_Send_int");
   }
 }
 
