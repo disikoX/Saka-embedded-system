@@ -10,6 +10,7 @@
 #define WIFI_PASSWORD "WIFI_PASSWORD"
 
 #define API_KEY "Web_API_KEY"
+#define DATABASE_URL "DATABASE_URL"
 #define USER_EMAIL "USER_EMAIL"
 #define USER_PASSWORD "USER_PASSWORD"
 
@@ -24,8 +25,10 @@ WiFiClientSecure ssl_client;
 using AsyncClient = AsyncClientClass;
 AsyncClient aClient(ssl_client);
 AsyncResult dbResult;
+RealtimeDatabase Database;
 
 bool taskComplete = false;
+int value = 10;
 
 void setup(){
   Serial.begin(115200);
@@ -54,6 +57,8 @@ void setup(){
 
   // Initialize Firebase
   initializeApp(aClient, app, getAuth(user_auth), processData, "🔐 authTask");
+  app.getApp<RealtimeDatabase>(Database);
+  Database.url(DATABASE_URL);
 }
 
 void loop(){
@@ -63,12 +68,8 @@ void loop(){
   // Check if authentication is ready
   if (app.ready() && !taskComplete){
     taskComplete = true;
-    // Print authentication info
-    Serial.println("Authentication Information");
-    Firebase.printf("User UID: %s\n", app.getUid().c_str());
-    Firebase.printf("Auth Token: %s\n", app.getToken().c_str());
-    Firebase.printf("Refresh Token: %s\n", app.getRefreshToken().c_str());
-    print_token_type(app);
+    // Send an int to the database
+    Database.set<String>(aClient, "/users/distributors/settings/quantity", value, processData, "RTDB_Send_int");
   }
 }
 
