@@ -21,9 +21,22 @@ admin.initializeApp({
 });
 
 const db = admin.database();
+const ref = db.ref('/users/{usersId}/distributors/triggerNow');
 
-//
+// API endpoint to toggle LED
+app.post('/toggle-led', (req, res) => {
+  const { status } = req.body;
+  ref.set(status)
+    .then(() => res.send({ success: true }))
+    .catch(err => res.status(500).send({ success: false, error: err }));
+});
 
+// Get current LED status
+app.get('/led-status', (req, res) => {
+  ref.once('value')
+    .then(snapshot => res.send({ status: snapshot.val() }))
+    .catch(err => res.status(500).send({ error: err }));
+});
 
 // Settings
 app.set("port", process.env.PORT || 3001);
