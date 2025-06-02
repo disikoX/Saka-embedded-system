@@ -7,7 +7,6 @@ admin.initializeApp({
 });
 
 const db = admin.database();
-const ref = db.ref('users');
 // const ref = db.ref('/users/{usersId}/distributors/{distributorId}/triggerNow');
 
 const fetchUserIdAssignedToDistributor = async (distributorId) => {
@@ -62,8 +61,31 @@ const fetchTriggerState = async (distributorId) => {
   }
 }
 
+const setStreamOnNode = async (nodePath, streamCallBack) => {
+  try {
+   const ref = db.ref(nodePath);
+    ref.on('value', streamCallBack);
+  } catch (error) {
+    console.error('Error setting stream on node from :', error);
+    throw error;
+  }
+}
+
+const removeStreamOnNode = async (nodePath, streamCallBack) => {
+  try {
+   const ref = db.ref(nodePath);
+    ref.off('value', streamCallBack);
+  } catch (error) {
+    console.error('Error removing stream on node from :', error);
+    throw error;
+  }
+}
+
+
 module.exports = {
   fetchUserIdAssignedToDistributor,
   fetchDistributorSettings,
-  fetchTriggerState
+  fetchTriggerState,
+  setStreamOnNode,
+  removeStreamOnNode,
 }
