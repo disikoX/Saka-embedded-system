@@ -35,6 +35,8 @@ void connectToWebSocketServer() {
   if (client.connect(websocket_server_url)) {
     Serial.println("Connecté au serveur WebSocket");
     client.send("Bonjour depuis l'ESP32 !");
+    shouldReconnect = false;
+
   } else {
     Serial.println("Échec de la connexion au serveur WebSocket");
     shouldReconnect = true;
@@ -86,7 +88,6 @@ void loop() {
     if (WiFi.status() == WL_CONNECTED) {
       Serial.println("Tentative de reconnexion au serveur WebSocket...");
       connectToWebSocketServer();
-      shouldReconnect = false;
     } else {
       Serial.println("Wi-Fi non connecté. Nouvelle tentative dans 5 secondes.");
       lastReconnectAttempt = millis();
