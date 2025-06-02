@@ -1,13 +1,13 @@
 #include <WiFi.h>
 #include <ArduinoWebsockets.h>
-
+#include "cJSON.h"
 #define DISTRIBUTOR_ID "distrib124"
 
 using namespace websockets;
 
 const char* ssid = "wirus mobile";
 const char* password = "1243..987@&";
-const char* websocket_server_host = "192.168.215.105"; // Adresse IP du serveur
+const char* websocket_server_host = "192.168.15.105 "; // Adresse IP du serveur
 const uint16_t websocket_server_port = 3000;         // Port du serveur
 const char* websocket_path = "/";                  // Chemin du WebSocket
 
@@ -16,6 +16,9 @@ bool shouldReconnect = false;
 unsigned long lastReconnectAttempt = 0;
 const unsigned long reconnectInterval = 5000; // 5 secondes
 
+float quantityToVerse;
+float thresholdOnPlate;
+
 WebsocketsClient client;
 
 void onMessageCallback(WebsocketsMessage message) {
@@ -23,6 +26,7 @@ void onMessageCallback(WebsocketsMessage message) {
   Serial.println(message.data());
 }
 
+// void handleMessageType()
 
 void connectToWebSocketServer() {
   if (WiFi.status() != WL_CONNECTED) {
@@ -34,7 +38,6 @@ void connectToWebSocketServer() {
 
   if (client.connect(websocket_server_url)) {
     Serial.println("Connecté au serveur WebSocket");
-    client.send("Bonjour depuis l'ESP32 !");
     shouldReconnect = false;
 
   } else {

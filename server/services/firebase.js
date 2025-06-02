@@ -10,23 +10,41 @@ const db = admin.database();
 const ref = db.ref('users');
 // const ref = db.ref('/users/{usersId}/distributors/{distributorId}/triggerNow');
 
-const fetchUserIdOfDistributor = async (req, res) => {
+const fetchUserIdAssignedToDistributor = async (distributorId) => {
   try {
-    const { distributorId } = req.params;
-    console.log("Fetching data for distributorId:", distributorId);
     const snapshot = await db
                         .ref(`/distributors/${distributorId}`)
                         .child('assignedTo')
                         .once('value');
                         
-    const data = snapshot.val();
-    if (!data) {
-      return res.status(404).send({ error: 'No data found' });
-    }
-
-    res.send(data);
+    const userId = snapshot.val();
+   
+    return userId
   } catch (error) {
-    console.error('Error fetching data:', error);
-    res.status(500).send({ error: 'Failed to fetch data' });
+    console.error('Error fetching data from firebase service:', error);
+    throw error;
   }
+}
+
+const fetchDistributorSettings = async (distributorId) => {
+  try {
+    const userId = await fetchUserIdAssignedToDistributor(distributorId);
+    const snapshot = await db
+                        .ref(`/users/${userId}/distributors/${distributorId}/settings`)
+                        .once('value');
+    const settings = snapshot.val();
+    if (!settings) {
+      throw new Error(`No settings found for distributor ${distributorId}`);
+    }
+    return settings;
+
+  } catch (error) {
+    console.error('Error fetching distributor settings from firebase service:', error);
+    throw error;
+  }
+}
+
+module.exports = {
+  fetchUserIdAssignedToDistributor,
+  fetchDistributorSettings,
 }
