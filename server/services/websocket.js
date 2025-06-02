@@ -29,7 +29,13 @@ const distributorConnectionHandler = async (ws, req) => {
     data: settings
   });
 
-  ws.send(settingsMessage);
+  const triggerState = await firebaseService.fetchTriggerState(distributorId);
+  const triggerStateMessage = JSON.stringify({
+    type: 'triggerState',
+    data: triggerState
+  });
+
+  ws.send(settingsMessage, triggerStateMessage);
 
   ws.on('message', (msg) => {
     console.log(`Message reçu de ${distributorId} : ${msg}`);

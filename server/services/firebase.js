@@ -44,7 +44,26 @@ const fetchDistributorSettings = async (distributorId) => {
   }
 }
 
+const fetchTriggerState = async (distributorId) => {
+  try {
+    const userId = await fetchUserIdAssignedToDistributor(distributorId);
+    const snapshot = await db
+                        .ref(`/users/${userId}/distributors/${distributorId}/triggerNow`)
+                        .once('value');
+    const triggerState = snapshot.val();
+    if (triggerState === null) {
+      throw new Error(`No trigger state found for distributor ${distributorId}`);
+    }
+    return triggerState;
+
+  } catch (error) {
+    console.error('Error fetching trigger state from firebase service:', error);
+    throw error;
+  }
+}
+
 module.exports = {
   fetchUserIdAssignedToDistributor,
   fetchDistributorSettings,
+  fetchTriggerState
 }
