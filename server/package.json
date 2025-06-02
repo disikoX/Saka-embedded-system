@@ -17,7 +17,8 @@
     "express-ws": "^5.0.2",
     "firebase": "^11.8.1",
     "firebase-admin": "^13.4.0",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "url": "^0.11.4"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
