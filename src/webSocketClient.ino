@@ -24,6 +24,25 @@ WebsocketsClient client;
 void onMessageCallback(WebsocketsMessage message) {
   Serial.print("Message reçu : ");
   Serial.println(message.data());
+
+  // Use ArduinoJson to parse the message
+  StaticJsonDocument<200> doc;
+  DeserializationError error = deserializeJson(doc, message.data());
+  
+  if (error) {
+    Serial.print("JSON parsing failed: ");
+    Serial.println(error.c_str());
+    return;
+  }
+  
+  // Example: extract specific fields
+  const char* command = doc["command"];
+  int value = doc["value"];
+  
+  Serial.print("Command: ");
+  Serial.println(command);
+  Serial.print("Value: ");
+  Serial.println(value);
 }
 
 // void handleMessageType()
