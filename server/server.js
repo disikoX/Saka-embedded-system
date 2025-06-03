@@ -4,7 +4,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 const axios = require("axios");
 const expressWs = require('express-ws');
-const websocketService = require("./services/websocket");
+const websockerController = require("./controllers/websocket-controller");
 
 
 const app = express();
@@ -17,8 +17,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 expressWs(app);
 
-app.ws('/', websocketService.distributorConnectionHandler);
-
+app.ws('/', websockerController.distributorConnectionController);
+ 
 // Settings
 app.set("port", process.env.PORT || 3001);
 

@@ -61,6 +61,47 @@ const fetchTriggerState = async (distributorId) => {
   }
 }
 
+const fetchPlannings = async (distributorId) => {
+  try {
+    const userId = await fetchUserIdAssignedToDistributor(distributorId);
+    const snapshot = await db
+                        .ref(`/users/${userId}/distributors/${distributorId}/planning`)
+                        .once('value');
+    const planning = snapshot.val();
+    if (!planning) {
+      throw new Error(`No planning found for distributor ${distributorId}`);
+    }
+    return planning;  
+  } catch (error) {
+    console.error('Error fetching planning from firebase service:', error);
+    throw error;
+  }
+}
+
+const setDataToValue = async (nodePath, data) => {
+  try {
+    const ref = db.ref(nodePath);
+    await ref.set(data);
+  } catch (error) {
+    console.error('Error setting data to value in firebase service:', error);
+    throw error;
+  }
+}
+
+const setTriggerToFalse = async ( distributorId) => {
+  const userId = await fetchUserIdAssignedToDistributor(distributorId);
+  if (!userId) {
+    throw new Error(`No user ID found for distributor ${distributorId}`);
+  }
+  
+  try {
+   await setDataToValue(`/users/${userId}/distributors/${distributorId}/triggerNow`, false);
+  } catch (error) {
+    console.error('Error setting trigger to false in firebase service:', error);
+    throw error;
+  }
+}
+
 const setStreamOnNode = async (nodePath, streamCallBack) => {
   try {
    const ref = db.ref(nodePath);
@@ -81,6 +122,76 @@ const removeStreamOnNode = async (nodePath, streamCallBack) => {
   }
 }
 
+const setStreamOnTriggerNow = async (distributorId, streamCallBack) => {
+  const userId = await fetchUserIdAssignedToDistributor(distributorId);
+  if (!userId) {
+    throw new Error(`No user ID found for distributor ${distributorId}`);
+  }
+  const nodePath = `/users/${userId}/distributors/${distributorId}/triggerNow`;
+  try {
+    await setStreamOnNode(nodePath, streamCallBack);
+  } catch (error) {
+    console.error('Error setting stream on triggerNow:', error);
+    throw error;
+  }
+}
+
+const removeStreamOnTriggerNow = async (distributorId, streamCallBack) => {
+  const userId = await fetchUserIdAssignedToDistributor(distributorId);
+  if (!userId) {
+    throw new Error(`No user ID found for distributor ${distributorId}`);
+  }
+  const nodePath = `/users/${userId}/distributors/${distributorId}/triggerNow`;
+  try {
+    await removeStreamOnNode(nodePath, streamCallBack);
+  } catch (error) {
+    console.error('Error removing stream on triggerNow:', error);
+    throw error;
+  }
+}
+
+const setStreamOnPlanning = async (distributorId, planningId, streamCallBack) => {
+  const userId = await fetchUserIdAssignedToDistributor(distributorId);
+  if (!userId) {
+    throw new Error(`No user ID found for distributor ${distributorId}`);
+  }
+  const nodePath = `/users/${userId}/distributors/${distributorId}/planning/${planningId}`;
+  try {
+    await setStreamOnNode(nodePath, streamCallBack);
+  } catch (error) {
+    console.error('Error setting stream on planning:', error);
+    throw error;
+  }
+}
+
+const removeStreamOnPlanning = async (distributorId, streamCallBack) => {
+  const userId = await fetchUserIdAssignedToDistributor(distributorId);
+  if (!userId) {
+    throw new Error(`No user ID found for distributor ${distributorId}`);
+  }
+  const nodePath = `/users/${userId}/distributors/${distributorId}/planning/${planningId}`;
+
+  try {
+    await removeStreamOnNode(nodePath, streamCallBack);
+  } catch (error) {
+    console.error('Error removing stream on planning:', error);
+    throw error;
+  }
+}
+
+const updateDistributorStatus = async (distributorId, status) => {
+  const userId = await fetchUserIdAssignedToDistributor(distributorId);
+  if (!userId) {
+    throw new Error(`No user ID found for distributor ${distributorId}`);
+  }
+
+  try {
+    await setDataToValue(`/distributors/${distributorId}/status`, status);
+  } catch (error) {
+    console.error('Error updating distributor status:', error);
+    throw error;
+  }
+}
 
 module.exports = {
   fetchUserIdAssignedToDistributor,
@@ -88,4 +199,11 @@ module.exports = {
   fetchTriggerState,
   setStreamOnNode,
   removeStreamOnNode,
+  setTriggerToFalse,
+  setStreamOnTriggerNow,
+  removeStreamOnTriggerNow,
+  updateDistributorStatus,
+  fetchPlannings,
+  setStreamOnPlanning,
+  removeStreamOnPlanning,
 }
