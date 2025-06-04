@@ -1,0 +1,174 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage{titlesec}
+\usepackage{tocloft} % pour la table des matières
+\usepackage{pdfpages}
+\usepackage[utf8]{inputenc}
+\usepackage[backend=biber]{biblatex}
+\addbibresource{biblio.bib}
+\usepackage{hyperref}
+\usepackage{abstract} % nous on a un abstract
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{array}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{multirow}
+\usepackage{appendix}
+\usepackage{adjustbox}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{import}
+\usepackage[nottoc,numbib]{tocbibind} %adding the bib to toc
+\usepackage{rotating} %pour les tableaux
+\usepackage{enumitem} % pour citer (mettre des tirets etc)
+\usepackage[nounderscore]{syntax}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel} %comme ça tout tes list of figures deviendront direct en francais tables des
+\usepackage[french]{nomencl}
+\usepackage{xcolor,graphicx}
+\newcounter{insertpages}
+\usepackage[automake]{glossaries} %liste des abréviations
+%\usepackage[acronym]{glossaries}
+\graphicspath{{image/}} %path de tes images
+\newcommand{\RomanNumeralCaps}[1]
+{\MakeUppercase{\romannumeral #1}}
+\usepackage[top=2cm, bottom=2cm, left=3cm, right=2cm]{geometry} % dimension de la page
+\linespread{1.5}
+\newenvironment{poliabstract}[1]
+  {\renewcommand{\abstractname}{#1}\begin{abstract}}
+  {\end{abstract}} %abstract sur 2 pages
+
+\renewcommand{\acronymname}{Listes des abréviations}
+
+\makeglossaries
+%\newglossaryentry{maths}
+%{
+    %name=mathematics,
+    %description={Mathematics is what mathematicians do}
+%}
+
+
+%%%%% style pour le code %%%%
+
+
+% Definig a custom style:
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{white},   
+    commentstyle=\color{purple},
+    keywordstyle=\color{blue},
+    numberstyle=\tiny\color{gray},
+    stringstyle=\color{purple},
+    basicstyle=\ttfamily\footnotesize\bfseries,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=t,                    
+    keepspaces=false,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+% -- Setting up the custom style:
+\lstset{style=mystyle}
+
+\lstset{
+  style=mystyle,
+%  frame= single,
+%  linewidth=0.6\linewidth,
+%  xleftmargin=12pt,
+%  aboveskip=12pt,
+%  belowskip=12pt
+}
+
+%%%%%%%%%%%%%%%%%%
+
+
+
+\loadglsentries{liste des abréviations}
+
+
+
+\begin{document}
+
+\renewcommand{\listfigurename}{Table des figures}
+\newpage
+\renewcommand{\listtablename}{Listes des tableaux}
+\newpage
+%\renewcommand\appendixpagename{Annexe}
+
+\pagenumbering{gobble}
+
+
+\includepdf[pages={1}]{COUVERTURE.pdf} %car je ne peux pas inclure un fichier qui n'est pas déjà compilé
+
+\null\newpage %saut de page
+
+%\renewcommand*\contentsname{Sommaire}
+%\includepdf[pages={1}]{couverture.pdf}
+\tableofcontents{} %table des matières
+%\include{Cahier des charges}
+
+\pagenumbering{roman} %numérotation des pages
+
+
+\listoffigures{}
+\null\newpage
+%\vspace{6cm}
+\listoftables{}
+
+%\printglossary[title={Nomenclature}]
+%\addcontentsline{toc}{chapter}{Nomenclature}
+%\vspace{7cm}
+%\input{Liste des abréviations}
+
+
+
+
+
+
+
+
+%% gesticulation c'est le header en haut 
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\fancyhead[LO,CE]{Distributeur intelligent d'aliments pour chat}
+\fancyhead[RO,LE]{2024-2025}
+%\fancyfoot[C]{\thepage} % Exemple footer
+%\renewcommand{\footrulewidth}{1pt} %  ligne pour le footer
+
+
+ %prend le fichier .tex l'ajoute à la compilation
+%\input{généralités}
+%\input{ETUDE ET CONCEPTION}
+%\input{REALISATION ET ESSAIS}
+%\input{CONCLUSION GENERALE}
+
+%pour afficher la bilbio
+\nopagebreak
+\printbibliography[heading=bibintoc,type=misc,title={Bibliographie}] 
+ 
+\pagenumbering{Roman}
+\setcounter{page}{8}
+\nopagebreak
+\printbibliography[heading=bibintoc,type=online,title={Webographie}]
+\nopagebreak
+\nopagebreak[4]
+\addappheadtotoc
+%\clearpage
+%\include{ANNEXE}
+%\printglossary[title=Glossaire, toctitle=Glossaire]
+\null\newpage
+%\renewcommand*\contentsname{Table des matières}
+%\tableofcontents{} %table des matières
+%\include{Cahier des charges}
+\input{Description du projet}
+\input{conception}
+\input{conclusion}
+%\input{résumé}
+%{\let\clearpage\relax\par \input{Abstract}} %mettre 2 chap sur une même page%
+
+\end{document}
