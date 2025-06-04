@@ -6,12 +6,9 @@ L’application suit une architecture modulaire basée sur le MVVM(modèle-vue-v
 
 \begin{itemize}
 \item    Présentation (UI) : Gérée par des Composants Jetpack Compose et des ViewModels.
-
 \item    Domain (Métier) : Contient les Use Cases et les interfaces de Repository.
-
 \item    Data (Accès aux données) : Implémente les sources de données (Firebase, ESP32, Capteurs).
 \end{itemize}
-
 Pour des soucis de performance, les données envoyés aux microcontrôleurs sont des données de types booléennes, pour que l'éxecution se fait approximativement en temps réel. 
 
 
@@ -73,7 +70,7 @@ Les données des distributeurs servent principalement à configurer leurs action
 
 \end{enumerate}
 
-\section{Composants clés de l’application} 
+\section{Fonctionalité clés de l’application} 
 
 \subsection{Gestion des utilisateurs (Firebase Auth)}
 L'inscription et la connexion se fait via email et mot de passe. Seul l’utilisateur authentifié peut contrôler son distributeur.
