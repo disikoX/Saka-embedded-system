@@ -1,0 +1,55 @@
+\chapter{Description du projet}
+\addcontentsline{toc}{chapter}{Description du projet}
+\section{Formulation}
+Ce projet consiste à concevoir un distributeur automatique de nourriture pour chat, qui peut être contrôlé à distance via une application mobile. 
+\section{Objectif du projet}
+	L'objectif est de permettre aux propriétaires de chats de nourrir leurs animaux même lorsqu'ils sont absents, en programmant des horaires et des quantités de nourriture à distribuer. Le système doit également offrir des fonctionnalités de contrôle manuel, de notifications et d'historique des distributions.
+\section{Besoins des utilisateurs}
+
+Voici la liste des besoins des utilisateurs :
+
+\begin{itemize}
+	\item Planification des repas : Les utilisateurs devraient pouvoir définir à l'avance les horaires et les quantités de nourriture à distribuer.
+	\item Distribution manuelle : Il est important de permettre aux utilisateurs de distribuer de la nourriture à la demande via l'application, en dehors des horaires programmés.
+	\item Notifications : des alertes devraient être générées lorsque la nourriture est distribuée ou lorsque le niveau de nourriture est bas, afin de rester informés en temps réel.
+	\item Historique des distributions : Un suivi des distributions pour que les utilisateurs puissent consulter les repas précédemment servis.
+	\item Sécurité des accès : une authentification sécurisée pour éviter tout accès non autorisé à l'application.
+	\item Réglage des quantités : permettre aux utilisateurs de définir précisément la quantité de nourriture à distribuer à chaque repas.
+\end{itemize}
+    
+\section{Moyen nécessaire à la réalisation du projet}
+	\subsection{Moyens Matériels}
+	Pour réaliser ce projet, on aura besoin des éléments suivants :
+		\begin{itemize}
+			\item \textit{1 microcontrôleur ESP32} pour la connectivité Wi-Fi et le contrôle des composants.
+			\item \textit{1 servo-moteur} pour contrôler la distribution de la nourriture.
+			\item \textit{2 capteurs de poids} permettant de mesurer la quantité de nourriture distribuée ainsi que la quantité restante de nourriture dans le réservoir.
+			\item \textit{Des bois et des vis} pour assembler le distributeur.
+			\item \textit{2 LED} pour indiquer l'état du distributeur (distribution en cours, niveau bas de nourriture).
+		\end{itemize}
+	\subsection{Moyens Logiciels}
+	Pour le développement du logiciel, les outils suivants seront utilisés :
+		\begin{itemize}
+			\item \textit{IDE Arduino} : pour la programmation de l'ESP32.
+			\item \textit{Android Studio} : pour le développement de l'application mobile avec Kotlin et Jetpack Compose.
+			\item \textit{Firebase Realtime Database} : pour le stockage des données des utilisateurs et des configurations de distribution.
+			\item \textit{Serveur Websocket (Node.js)} : pour gérer les requêtes entre l'ESP32 et la base de données.
+			\item \textit{Git} : pour la gestion des versions du code source.
+			\item \textit{WokWi} : pour la simulation des comportements des matériels éléctroniques.
+			\item \textit{TexMaker} : pour la rédaction du rapport de projet.
+		\end{itemize}
+	
+		\subsection{Moyens Humains}
+	Pour la réalisation de ce projet, une équipe de 4 personnes est nécessaire, avec les rôles suivants :
+		\begin{itemize}
+			\item \textbf{2 développeurs} : responsables de la programmation de l’ESP32, de l’intégration des capteurs et du développement des communications WebSocket.
+			\item \textbf{2 développeurs} : chargés de la conception et du développement de l’application mobile.
+		\end{itemize}
+
+\pagenumbering{arabic}
+\setcounter{page}{1}       
+
+
+
+
+
