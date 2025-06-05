@@ -1,0 +1,17 @@
+*.glo
+*.log
+*.aux
+*.bcf
+*.dvi
+*.glg
+*.gls
+*.ist
+*.lof
+*.lot
+*.out
+*.pdf
+*.run.xml
+*.synctex.gz
+*.toc
+../.vscode/
+RAPPORT.tex

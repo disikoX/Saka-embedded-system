@@ -41,7 +41,7 @@ const distributorConnectionController = async (ws, req) => {
   setupMessageHandler(ws, distributorId);
 
   // 6. Débuter les planifications
-   executePlanning(ws, distributorId);
+  executePlanning(ws, distributorId);
 
   // 7. Sur fermeture normale ou forcée
   ws.on('close', async () => {

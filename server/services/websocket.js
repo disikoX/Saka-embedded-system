@@ -102,6 +102,8 @@ async function setupMessageHandler(ws, distributorId) {
         firebaseService.setTriggerToFalse(distributorId)
           .catch(err => console.error(`Impossible de désactiver trigger pour ${distributorId} :`, err));
         break;
+      case '!brk':
+        break;
       default:
         consosetStreamOnPlanningle.log(`Type non géré (${distributorId}) :`, payload.type);
     }
@@ -113,7 +115,7 @@ async function setupMessageHandler(ws, distributorId) {
  */
 async function executePlanning(ws, distributorId) {
   const planningCallBackFunction = () => {
-    // sct: ScheduledTask
+    // sct: ScheduledTrigger
     // le type de message pour indiquer à l'ESP32 de lancer le planning
       const msg = JSON.stringify({ type: 'sct' });
       ws.send(msg);
@@ -135,6 +137,7 @@ async function executePlanning(ws, distributorId) {
     
     console.log(`Planification pour ${key} :`, value);
     let cronTaskInstance = cronService.setPlanning(value.time, planningCallBackFunction);
+    
     const onPlanningUpdated = (snapshot) => {
       const planning = snapshot.val();
       console.log(`Planning mis à jour pour ${distributorId} :`, planning);
@@ -147,7 +150,6 @@ async function executePlanning(ws, distributorId) {
     firebaseService.setStreamOnPlanning(distributorId, key, onPlanningUpdated);
   }
 }
-
 /**
  * Détecte les pauses dans le planning afin d'interrompre
  */
