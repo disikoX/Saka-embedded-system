@@ -138,22 +138,76 @@ Un exemple concret est montré par la figure~\ref{fig:envoi-donnees}, illustrant
 \section{Montage du système et réglages matériels}
 \subsection{Capteur de pesage}
 \begin{itemize}
-	\item montage 
-	\item callibrage
+	\item \textit{Montage} : À peine déballé, le capteur de pesage n'a aucun support attaché avec lui, d'où la nécessité de monter le support nécessaire pour le capteur. La figure~\ref{fig:montage-capteur-pesage} montre le résultat après montage des supports.
+	
+	\begin{minipage}{\linewidth}
+  		\centering
+  		\includegraphics[scale=0.2]{montage-capteur-pesage.jpeg}
+  		\captionof{figure}{Montage du capteur de pesage}
+  		\label{fig:montage-capteur-pesage}
+	\end{minipage}
+	
+	\item \textit{Calibrage} : Le calibrage se fait après le montage. Il est essentiel pour garantir la précision des mesures du capteur. Voici les étapes à suivre pour bien calibrer le capteur de pesage :
+
+	\begin{enumerate}
+		\item \textbf{Mise à zéro} : il faut s'assurez que le capteur est sans charge, puis réinitialisez la lecture à zéro pour éliminer toute valeur résiduelle.
+		\item \textbf{Application d'une charge connue} : on place ensuite un poids de référence connu sur le capteur.
+		\item \textbf{Lecture de la valeur mesurée} : on prend note la valeur affichée par le système de mesure.
+		\item \textbf{Calcul du facteur de calibration} : on compare la valeur mesurée à la valeur réelle du poids de référence pour déterminer le facteur de calibration.
+		\item \textbf{Ajustement du système} : Et enfin on entre le facteur de calibration dans le système pour corriger les futures mesures.
+	\end{enumerate}
+
+	Ce processus peut être répété avec différents poids de référence pour améliorer la précision. Il est recommandé de recalibrer régulièrement le capteur pour maintenir des mesures fiables, surtout si le capteur est utilisé fréquemment ou dans des conditions variables.
 \end{itemize}
 
 
 \subsection{Servo moteur}
 \begin{itemize}
-	\item montage
-	\item configuration initialie nécessaire
+	\item \textit{Montage} : Un carton est fixé sur l'axe de rotation du servo moteur afin de permettre le blocage et l'ouverture de l'orifice du réservoir. Ensuite, l'ensemble est attaché au support relié au capteur de poids, comme illustré à la figure~\ref{fig:servo-moteur}.
+	
+	\begin{minipage}{\linewidth}
+  		\centering
+  		\includegraphics[scale=0.2]{servo-moteur.jpeg}
+  		\captionof{figure}{Montage du servo moteur}
+  		\label{fig:servo-moteur}
+	\end{minipage}
+	
+	\item \textit{Configuration initiale nécessaire} :Avant la mise en service, il est nécessaire de réaliser certaines étapes de configuration afin de garantir le bon fonctionnement du servo moteur, comme illustré par l'extrait de code de la figure~\ref{fig:servo-moteur-code}.
+	\begin{itemize}
+		\item \textbf{Positionnement initial} : Il faut positionner le servo moteur à sa position neutre (généralement 90°) avant de le fixer mécaniquement, afin d'assurer un alignement correct.
+		\item \textbf{Paramétrage du signal de commande} : Le servo moteur doit être contrôlé par un signal PWM approprié. Il convient de s'assurer que la fréquence et l'amplitude du signal sont compatibles avec les spécifications du servo utilisé.
+		\item \textbf{Définition des limites de mouvement} : Les positions minimale et maximale du servo doivent être définies pour éviter tout dépassement mécanique. Cela permet de prévenir les surcharges et d'assurer une longévité accrue du dispositif.
+		\item \textbf{Tests de fonctionnement} : Après configuration, des tests doivent être effectués pour vérifier que le servo moteur répond correctement aux commandes et que le mécanisme associé fonctionne comme prévu.
+	\end{itemize}
+	
+	\begin{minipage}{\linewidth}
+  		\centering
+  		\includegraphics[scale=0.4]{servo-moteur.png}
+  		\captionof{figure}{Extrait de code pour le servo moteur SG90}
+  		\label{fig:servo-moteur-code}
+	\end{minipage}
 \end{itemize}
 
 
 \subsection{ESP32}
 \begin{itemize}
-	\item montage
-	\item gestion des messages depuis le serveur websocket
+	\item Connexion au wifi et au serveur websocket : la figure~\ref{fig:wifi-websocket} illustre comment on établit d’abord la connexion au réseau wifi, puis comment on initialise la connexion avec le serveur websocket. Ces étapes sont indispensables pour assurer une communication stable entre l’ESP32 et le serveur.
+	
+	\begin{minipage}{\linewidth}
+  		\centering
+  		\includegraphics[scale=0.4]{wifi-websocket.png}
+  		\captionof{figure}{Connexion Wifi et Initialisation du Serveur Websocket}
+  		\label{fig:wifi-websocket}
+	\end{minipage}
+	
+	
+	\item Gestion des messages depuis le serveur websocket :la figure~\ref{fig:message-websocket} montre comment on récupère un message JSON, on extrait le type et les données, puis on effectue des actions spécifiques selon le type reçu (comme faire bouger le servo ou envoyer une réponse au serveur).\\
+	\begin{minipage}{\linewidth}
+  		\centering
+  		\includegraphics[scale=0.3]{message-websocket.png	}
+  		\captionof{figure}{Réception et Gestion des Messages depuis le Serveur Websocket}
+  		\label{fig:message-websocket}
+	\end{minipage}
 \end{itemize}
 
 
