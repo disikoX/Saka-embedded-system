@@ -25,11 +25,19 @@
 \usepackage[nounderscore]{syntax}
 \usepackage[T1]{fontenc}
 \usepackage[french]{babel} %comme ça tout tes list of figures deviendront direct en francais tables des
+\usepackage{graphicx}
+\usepackage{alltt} 
+\usepackage{capt-of}
+
 \usepackage[french]{nomencl}
 \usepackage{xcolor,graphicx}
 \newcounter{insertpages}
 \usepackage[automake]{glossaries} %liste des abréviations
 %\usepackage[acronym]{glossaries}
+
+\DeclareUnicodeCharacter{202F}{\,}
+
+
 \graphicspath{{image/}} %path de tes images
 \newcommand{\RomanNumeralCaps}[1]
 {\MakeUppercase{\romannumeral #1}}
@@ -102,7 +110,7 @@
 \pagenumbering{gobble}
 
 
-%\includepdf[pages={1}]{COUVERTURE.pdf} %car je ne peux pas inclure un fichier qui n'est pas déjà compilé
+\includepdf[pages={1}]{COUVERTURE.pdf} %car je ne peux pas inclure un fichier qui n'est pas déjà compilé
 
 \null\newpage %saut de page
 
@@ -167,7 +175,7 @@
 \input{Description du projet}
 \input{conception}
 \input{realisation}
-%\input{conclusion}
+\input{conclusion}
 %\input{résumé}
 %{\let\clearpage\relax\par \input{Abstract}} %mettre 2 chap sur une même page%
 
