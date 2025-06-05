@@ -8,11 +8,11 @@
 L’application suit une architecture modulaire basée sur le MVVM(modèle-vue-vue modèle), divisée en trois couches principales :
 
 \begin{itemize}
-\item    Présentation (UI) : Gérée par des Composants Jetpack Compose et des ViewModels.\\
+\item    Présentation (UI) : Gérée par des Composants Jetpack Compose et des ViewModels.
 
-\item    Domain (Métier) : Contient les Use Cases et les interfaces de Repository.\\
+\item    Domain (Métier) : Contient les Use Cases et les interfaces de Repository.
 
-\item    Data (Accès aux données) : Implémente les sources de données (Firebase, ESP32, Capteurs).\\
+\item    Data (Accès aux données) : Implémente les sources de données (Firebase, ESP32, Capteurs).
 \end{itemize}
 
 Pour des soucis de performance, les données envoyés aux microcontrôleurs sont des données de types booléennes, pour que l'éxecution se fait approximativement en temps réel. 
@@ -97,10 +97,10 @@ Des alertes sont envoyés, comme la confirmation de la nourriture distribuée et
 \fancyhead[RO,LE]{2024-2025}
 \chapter{Conception électronique}
 \section{Présentation matériel}
-Notre projet a comme partie électronique les composants suivant : pour le microcontrôleur nous avons utilisés l'ESP32, 2 capteurs de poids avec muni convertisseur analogique vers numérique de 24 bits le HX711, et d'un servomoteur.
+Ce projet a comme partie électronique les composants suivant : pour le microcontrôleur nous avons utilisés l'ESP32, 2 capteurs de poids avec muni convertisseur analogique vers numérique de 24 bits le HX711, et d'un servomoteur.
 
 \begin{itemize}
-\item \underline{\textbf{le microcontrôleur}:} L’ESP32 est un microcontrôleur à faible consommation d’énergie, doté d’un processeur double cœur 32 bits, de connexions Wi-Fi et Bluetooth intégrées. Il est largement utilisé pour les projets IoT (Internet des Objets) grâce à sa puissance de calcul, sa connectivité sans fil, ses nombreux broches. Pour notre projet nous avons utilisés l'ESP32 WROOM-32 DevKit à 38 broches.\\
+\item \underline{\textbf{le microcontrôleur}:} L’ESP32 est un microcontrôleur à faible consommation d’énergie, doté d’un processeur double cœur 32 bits, de connexions Wi-Fi et Bluetooth intégrées. Il est largement utilisé pour les projets IoT (Internet des Objets) grâce à sa puissance de calcul, sa connectivité sans fil, ses nombreux broches. Pour ce projet, le dispositif est doté de l'ESP32 WROOM-32 DevKit à 38 broches.\\
 
 
 \begin{figure}[H]
@@ -109,7 +109,7 @@ Notre projet a comme partie électronique les composants suivant : pour le micro
 	\caption{Brochage de l'ESP32 WROOM-32 DevKit}
 \end{figure}
 
-\item \underline{\textbf{les capteurs de poids}:} Ils utilisent des jauges de contrainte montées sur une cellule de charge pour détecter les déformations causées par une masse. Le HX711 est un convertisseur analogique-numérique (ADC) va amplifier et lire les signaux analogique de faible amplitude que va généré la cellule de charge. Nous avons utilisés 2 capteurs de masse différentes l'un de 1kg et l'autre de 20kg pour le réservoir.
+\item \underline{\textbf{les capteurs de poids}:} Ils utilisent des jauges de contrainte montées sur une cellule de charge pour détecter les déformations causées par une masse. Le HX711 est un convertisseur analogique-numérique (ADC) va amplifier et lire les signaux analogique de faible amplitude que va généré la cellule de charge. Ici, le dispositif utilise 2 capteurs de masse différentes l'un de 1kg et l'autre de 20kg pour le réservoir.
 
 \begin{figure}[H]
 	\centering
@@ -133,11 +133,17 @@ Notre projet a comme partie électronique les composants suivant : pour le micro
 
 \item  \underline{\textbf{Communication entre le microcontrôleur et le websocket}:} Pour récuperer les données depuis Firebase et le transmettre à l'ESP32, nous avons mis en place un serveur websocket, qui permet entre outre de recevoir des messages contenant des données depuis l'ESP32.  Le serveur websocket va ensuite les tranférer les données  vers  Real Time Database de Firebase.
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{4.png}
+	\caption{Communication entre Firebase, le serveur websocket et l'ESP32}
+\end{figure}
+
 \end{itemize}
 
 
 \section{Schéma d'ensemble du circuit}
-Malheureusement, nous ne disposons pas de beaucoup de logiciels pour simuler et montrer précisement le schéma électronique du projet. Néanmoins, la platforme \textit{Wokwi}, permet cela, c'est une plateforme web qui permet de simuler à quelques détails près L'ESP32, et il nous fournit un schéma d'ensemble avec.\\[0.3cm]
+Malheureusement, pas de beaucoup de logiciels peuvent simuler l'ESP32 et montrer précisement le schéma électronique du projet. Néanmoins, la platforme \textit{Wokwi}, permet cela, c'est une plateforme web qui permet de simuler à quelques détails près L'ESP32, et il nous fournit un schéma d'ensemble avec.\\[0.3cm]
 
 \begin{figure}[H]
 	\centering
@@ -145,5 +151,27 @@ Malheureusement, nous ne disposons pas de beaucoup de logiciels pour simuler et 
 	\caption{Schéma d'ensemble du dispositif}
 \end{figure}
 
-\section{Simulation}
-Pour la simulation nous avons opté pour la plateforme Wokwi, mais la plateforme a aussi ses limites, comme un capteur de poids de maximum 5kg or il nous faut un de 20kg et un de 1kg, donc nous avons juste simuler le comportement dispositif avec un servo-moteur et 2 capteurs de poids de 5kg puis passer directement à la pratique.
+
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\fancyhead[LO,CE]{Réalisation}
+\fancyhead[RO,LE]{2024-2025}
+\chapter{Réalisation}
+
+
+
+
+
+
+
+
+
+
+
+
+
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\fancyhead[LO,CE]{Tests et validation}
+\fancyhead[RO,LE]{2024-2025}
+\chapter{Tests et validation}
