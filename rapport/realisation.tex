@@ -167,11 +167,11 @@ Un exemple concret est montré par la figure~\ref{fig:envoi-donnees}, illustrant
 	
 	\begin{minipage}{\linewidth}
   		\centering
-  		\includegraphics[scale=0.2]{servo-moteur.jpeg}
+  		\includegraphics[scale=0.4]{servo-moteur.jpeg}
   		\captionof{figure}{Montage du servo moteur}
   		\label{fig:servo-moteur}
 	\end{minipage}
-	
+	\\
 	\item \textit{Configuration initiale nécessaire} :Avant la mise en service, il est nécessaire de réaliser certaines étapes de configuration afin de garantir le bon fonctionnement du servo moteur, comme illustré par l'extrait de code de la figure~\ref{fig:servo-moteur-code}.
 	\begin{itemize}
 		\item \textbf{Positionnement initial} : Il faut positionner le servo moteur à sa position neutre (généralement 90°) avant de le fixer mécaniquement, afin d'assurer un alignement correct.
@@ -199,7 +199,7 @@ Un exemple concret est montré par la figure~\ref{fig:envoi-donnees}, illustrant
   		\captionof{figure}{Connexion Wifi et Initialisation du Serveur Websocket}
   		\label{fig:wifi-websocket}
 	\end{minipage}
-	
+	\\
 	
 	\item Gestion des messages depuis le serveur websocket :la figure~\ref{fig:message-websocket} montre comment on récupère un message JSON, on extrait le type et les données, puis on effectue des actions spécifiques selon le type reçu (comme faire bouger le servo ou envoyer une réponse au serveur).\\
 	\begin{minipage}{\linewidth}
