@@ -4,7 +4,7 @@
 \fancyhead[RO,LE]{2024-2025}
 \chapter{Conception logicielle}
 
-\section{Architecture logicielle}
+\section{Architecture système}
 L’application suit une architecture modulaire basée sur le MVVM(modèle-vue-vue modèle), divisée en trois couches principales :
 
 \begin{itemize}
@@ -14,9 +14,7 @@ L’application suit une architecture modulaire basée sur le MVVM(modèle-vue-v
 
 \item    Data (Accès aux données) : Implémente les sources de données (Firebase, ESP32, Capteurs).
 \end{itemize}
-
-Pour des soucis de performance, les données envoyés aux microcontrôleurs sont des données de types booléennes, pour que l'éxecution se fait approximativement en temps réel. 
-
+L'application communique directement avec Firebase pour la gestion des données, afin de transmettre à l'ESP32 les paramètres de configuration. La figure~\ref{fig:architecture_systeme} illustre cette architecture.
 
 \section{Structure de la base de données dans Realtime Database}
 
@@ -46,7 +44,7 @@ La base de données contient deux clés principales :
 \item \textbf{email} : adresse e-mail utilisée par l'utilisateur pour se connecter à l'application.
 \end{itemize}
 
-\item{Données des distributeurs} 
+\item \textbf{Données des distributeurs} 
 
 Les données des distributeurs servent principalement à configurer leurs actions. Ces données incluent :
 
