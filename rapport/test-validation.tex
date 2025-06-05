@@ -47,6 +47,27 @@ Cette section de l’application, illustré dans la figure~\ref{fig:interface-re
 \end{minipage}
 
 \section{Distributeur automatique}
-En guise de test, puisqu'on ne peut pas montrer directement ici comment le matériel fonctionne, nous avons utiliser l' \verb|interface série (Serial)| de l'ESP32 pour montrer que le code de distribution s'exécute très bien.
-\subsection{Distribution manuel}
-\subsection{Distribution automatique des planning}
+
+Pour tester le fonctionnement du système, et comme il n'est pas possible de montrer directement le matériel ici, nous utilisons l' \verb|interface série (Serial)| de l'ESP32 pour vérifier que le code de distribution s'exécute correctement.
+
+\subsection{Distribution manuelle et automatique}
+
+Dans la figure~\ref{fig:message-websocket}, lorsque le message reçu est de type \verb|"t"|, cela déclenche une distribution manuelle. Le message "Trigger food" s'affiche alors dans le \verb|Serial monitor|. Cela montre que la commande envoyée depuis l'application mobile a bien été prise en compte. La figure~\ref{fig:trigger-manual} illustre ce processus.\\
+
+\begin{minipage}{\linewidth}
+\centering
+\includegraphics[scale=0.32]{trigger-manual.png}
+\captionof{figure}{Message affiché lors d'une distribution manuelle}
+\label{fig:trigger-manual}
+\end{minipage} \\
+
+
+Pour une distribution planifiée, le message reçu est de type \verb|"sct"|. Dans ce cas, le texte "Trigger Scheduled food" s'affiche dans le \verb|Serial monitor|, comme illustré dans la figure~\ref{fig:trigger-auto}. Cette action est déclenchée automatiquement selon un planning défini via des scripts Cron, dont l'exécution est aussi visible dans cette figure.\\
+
+\begin{minipage}{\linewidth}
+\centering
+\includegraphics[scale=0.5]{planning-image.png}
+\captionof{figure}{Message affiché lors d'une distribution automatique (planifiée)}
+\label{fig:trigger-auto}
+\end{minipage}
+
