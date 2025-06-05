@@ -3,18 +3,22 @@
 \fancyhead[LO,CE]{Conception logicielle}
 \fancyhead[RO,LE]{2024-2025}
 \chapter{Conception logicielle}
-
 \section{Architecture système}
 L’application suit une architecture modulaire basée sur le MVVM(modèle-vue-vue modèle), divisée en trois couches principales :
 
 \begin{itemize}
 \item    Présentation (UI) : Gérée par des Composants Jetpack Compose et des ViewModels.
-
 \item    Domain (Métier) : Contient les Use Cases et les interfaces de Repository.
-
 \item    Data (Accès aux données) : Implémente les sources de données (Firebase, ESP32, Capteurs).
 \end{itemize}
 L'application communique directement avec Firebase pour la gestion des données, afin de transmettre à l'ESP32 les paramètres de configuration. La figure~\ref{fig:architecture_systeme} illustre cette architecture.
+
+\begin{figure}[H]
+   \centering
+   \includegraphics[scale=1]{archi_firebase.png}
+   \caption{Communication entre l'application mobile et firebase}
+   \label{fig:structure_de_la_base_de_donnees}
+\end{figure}
 
 \section{Structure de la base de données dans Realtime Database}
 
@@ -74,19 +78,26 @@ Les données des distributeurs servent principalement à configurer leurs action
 
 \end{enumerate}
 
-\section{Composants clés de l’application} 
+\section{Fonctionnalités clés de l’application} 
+\begin{itemize}
+	\item \textbf{Gestion des utilisateurs (Firebase Auth)} : 
+	L'inscription et la connexion se font via email et mot de passe. Seul l’utilisateur authentifié peut accéder à son distributeur et le contrôler, garantissant ainsi une sécurité des accès.
 
-\subsection{Gestion des utilisateurs (Firebase Auth)}
-L'inscription et la connexion se fait via email et mot de passe. Seul l’utilisateur authentifié peut contrôler son distributeur.
+	\item \textbf{Programmation des repas} :
+	Les utilisateurs peuvent planifier les horaires et les quantités de nourriture à distribuer. Ces informations sont enregistrées dans Firebase avec \textbf{Real Time Database}.
 
-\subsection{Programmation des repas} 
-Les horaires de distributions et la quantité sont stockés dans Firebase avec \textbf{Real Time Database}.
+	\item \textbf{Contrôle manuel} :
+	Il est possible de déclencher manuellement une distribution de nourriture via l’application. Une commande est envoyée depuis Firebase, ce qui active un "trigger" de type booléen sur l’ESP32, permettant de lancer immédiatement une distribution.
 
-\subsection{Contrôle manuel}
-On envoi une commande depuis Firebase qui provoque un déclenchement immédiat sur l’ESP32. Un "trigger" de type booléen qui permet au microcontrôleur d'effectuer  ou non une action sur l'ensemble du système.
+	\item \textbf{Notifications} :
+	L’utilisateur reçoit des alertes depuis l’application mobile, comme la confirmation qu’un repas a bien été distribué ou un avertissement en cas de niveau de nourriture bas. Ces notifications sont générées par un "trigger" associé aux événements dans l’application.
 
-\subsection{Notifications}
-Des alertes sont envoyés, comme la confirmation de la nourriture distribuée et le niveau de nourriture faible. Ces notifications viennent de l'application mobile, qui envoi un "trigger"
+	\item \textbf{Historique des distributions} :
+	Toutes les distributions, automatiques ou manuelles, sont enregistrées. L’utilisateur peut ainsi consulter l’historique des repas déjà servis, directement depuis l’application.
+
+	\item \textbf{Réglage des quantités} :
+	Pour chaque distribution, l’utilisateur peut définir précisément la quantité de nourriture à délivrer, en fonction des besoins de l’animal.
+\end{itemize}
 
 
 \pagestyle{fancy}
