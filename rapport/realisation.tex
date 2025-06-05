@@ -117,8 +117,8 @@ Un exemple concret est montré par la figure~\ref{fig:envoi-donnees}, illustrant
   \includegraphics[scale=0.2]{envoi-donnees.png}
   \captionof{figure}{Envoi des données vers l'ESP32}
   \label{fig:envoi-donnees}
-\end{minipage}
-\\
+\end{minipage}\\
+
 
 \item Surveillance des changements dans la base de données : pour surveiller les changements sur une clé dans la base de données, on utilise le \textbf{Firebase Data Stream} pour surveiller en temps réel les modifications de cette clé. Le fonctionnement est simple : à chaque mise à jour des données, le serveur WebSocket est notifié de ce changement et exécute le code nécessaire. La figure~\ref{fig:surveillance-donnees} en est un exemple concret.
 
@@ -127,8 +127,7 @@ Un exemple concret est montré par la figure~\ref{fig:envoi-donnees}, illustrant
   \includegraphics[scale=0.3]{surveillance-changement.png}
   \captionof{figure}{Fonction pour surveiller les changements sur une clé donnée}
   \label{fig:surveillance-donnees}
-\end{minipage}
-\\
+\end{minipage}\\
 
 \item Mise en place des scripts cron : à chaque planification détectée dans la base de données, un script cron est planifié du côté NodeJS. La figure~\ref{fig:cron-task} illustre la fonction qui prend en paramètre l'heure et l'action à exécuter pour la tâche cron associée.
 
@@ -138,7 +137,7 @@ Un exemple concret est montré par la figure~\ref{fig:envoi-donnees}, illustrant
   \captionof{figure}{Planification des tâches cron}
   \label{fig:cron-task}
 \end{minipage}
-\\
+
 \end{itemize}
 
 
@@ -211,7 +210,7 @@ Un exemple concret est montré par la figure~\ref{fig:envoi-donnees}, illustrant
 	\item Gestion des messages depuis le serveur websocket :la figure~\ref{fig:message-websocket} montre comment on récupère un message JSON, on extrait le type et les données, puis on effectue des actions spécifiques selon le type reçu (comme faire bouger le servo ou envoyer une réponse au serveur).\\
 	\begin{minipage}{\linewidth}
   		\centering
-  		\includegraphics[scale=0.3]{message-websocket.png	}
+  		\includegraphics[scale=0.28]{message-websocket.png	}
   		\captionof{figure}{Réception et Gestion des Messages depuis le Serveur Websocket}
   		\label{fig:message-websocket}
 	\end{minipage}
