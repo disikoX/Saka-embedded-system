@@ -2,7 +2,6 @@ require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
-const axios = require("axios");
 const expressWs = require('express-ws');
 const websockerController = require("./controllers/websocket-controller");
 

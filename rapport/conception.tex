@@ -4,19 +4,19 @@
 \fancyhead[RO,LE]{2024-2025}
 \chapter{Conception logicielle}
 \section{Architecture système}
-L’application suit une architecture modulaire basée sur le MVVM(modèle-vue-vue modèle), divisée en trois couches principales :
+L’application suit une architecture modulaire basée sur le MVVM (Modèle-Vue-VueModèle), divisée en trois couches principales :
 
 \begin{itemize}
-\item    Présentation (UI) : Gérée par des Composants Jetpack Compose et des ViewModels.
-\item    Domain (Métier) : Contient les Use Cases et les interfaces de Repository.
-\item    Data (Accès aux données) : Implémente les sources de données (Firebase, ESP32, Capteurs).
+\item    Présentation (UI) : Gérée par des composants Jetpack Compose et des ViewModels.
+\item    Domaine (Métier) : Contient les Use Cases et les interfaces de Repository.
+\item    Données (Accès aux données) : Implémente les sources de données (Firebase, ESP32, capteurs).
 \end{itemize}
 L'application communique directement avec Firebase pour la gestion des données, afin de transmettre à l'ESP32 les paramètres de configuration. La figure~\ref{fig:architecture_systeme} illustre cette architecture.
 
 \begin{figure}[H]
    \centering
    \includegraphics[scale=1]{archi_firebase.png}
-   \caption{Communication entre l'application mobile et firebase}
+   \caption{Communication entre l'application mobile et Firebase}
    \label{fig:structure_de_la_base_de_donnees}
 \end{figure}
 
@@ -35,7 +35,7 @@ La base de données contient deux clés principales :
 
 \begin{itemize}
 \item \textbf{users} : contient les informations de tous les utilisateurs de l'application mobile.
-\item \textbf{distributors} : contient les paramètres des distributeurs automatiques de nourriture pour chats.
+\item \textbf{distributors} : contient les paramètres des distributeurs automatiques de nourriture pour chats.\\
 \end{itemize}
 
 \begin{enumerate}[label=\alph*)]
@@ -74,17 +74,15 @@ Les données des distributeurs servent principalement à configurer leurs action
 \item \textbf{history} : historique des distributions effectuées.
 \end{itemize}
 
-
-
 \end{enumerate}
 
 \section{Fonctionnalités clés de l’application} 
 \begin{itemize}
 	\item \textbf{Gestion des utilisateurs (Firebase Auth)} : 
-	L'inscription et la connexion se font via email et mot de passe. Seul l’utilisateur authentifié peut accéder à son distributeur et le contrôler, garantissant ainsi une sécurité des accès.
+	L'inscription et la connexion se font via e-mail et mot de passe. Seul l’utilisateur authentifié peut accéder à son distributeur et le contrôler, garantissant ainsi la sécurité des accès.
 
 	\item \textbf{Programmation des repas} :
-	Les utilisateurs peuvent planifier les horaires et les quantités de nourriture à distribuer. Ces informations sont enregistrées dans Firebase avec \textbf{Real Time Database}.
+	Les utilisateurs peuvent planifier les horaires et les quantités de nourriture à distribuer. Ces informations sont enregistrées dans Firebase avec \textbf{Realtime Database}.
 
 	\item \textbf{Contrôle manuel} :
 	Il est possible de déclencher manuellement une distribution de nourriture via l’application. Une commande est envoyée depuis Firebase, ce qui active un "trigger" de type booléen sur l’ESP32, permettant de lancer immédiatement une distribution.
@@ -105,12 +103,11 @@ Les données des distributeurs servent principalement à configurer leurs action
 \fancyhead[LO,CE]{Conception électronique}
 \fancyhead[RO,LE]{2024-2025}
 \chapter{Conception électronique}
-\section{Présentation matériel}
-Ce projet a comme partie électronique les composants suivant : pour le microcontrôleur nous avons utilisés l'ESP32, 2 capteurs de poids avec muni convertisseur analogique vers numérique de 24 bits le HX711, et d'un servomoteur.
+\section{Présentation du matériel}
+Ce projet comprend une partie électronique composée des composants suivants : pour le microcontrôleur, nous avons utilisé l'ESP32, deux capteurs de poids munis d’un convertisseur analogique/numérique 24 bits (le HX711), et un servomoteur.
 
 \begin{itemize}
-\item \underline{\textbf{le microcontrôleur}:} L’ESP32 est un microcontrôleur à faible consommation d’énergie, doté d’un processeur double cœur 32 bits, de connexions Wi-Fi et Bluetooth intégrées. Il est largement utilisé pour les projets IoT (Internet des Objets) grâce à sa puissance de calcul, sa connectivité sans fil, ses nombreux broches. Pour ce projet, le dispositif est doté de l'ESP32 WROOM-32 DevKit à 38 broches.\\
-
+\item \underline{\textbf{Le microcontrôleur} :} L’ESP32 est un microcontrôleur à faible consommation d’énergie, doté d’un processeur double cœur 32 bits, de connexions Wi-Fi et Bluetooth intégrées. Il est largement utilisé pour les projets IoT (Internet des Objets) grâce à sa puissance de calcul, sa connectivité sans fil et ses nombreuses broches. Pour ce projet, le dispositif utilise l'ESP32 WROOM-32 DevKit à 38 broches.\\
 
 \begin{figure}[H]
 	\centering
@@ -118,7 +115,7 @@ Ce projet a comme partie électronique les composants suivant : pour le microcon
 	\caption{Brochage de l'ESP32 WROOM-32 DevKit}
 \end{figure}
 
-\item \underline{\textbf{les capteurs de poids}:} Ils utilisent des jauges de contrainte montées sur une cellule de charge pour détecter les déformations causées par une masse. Le HX711 est un convertisseur analogique-numérique (ADC) va amplifier et lire les signaux analogique de faible amplitude que va généré la cellule de charge. Ici, le dispositif utilise 2 capteurs de masse différentes l'un de 1kg et l'autre de 20kg pour le réservoir.
+\item \underline{\textbf{Les capteurs de poids} :} Ils utilisent des jauges de contrainte montées sur une cellule de charge pour détecter les déformations causées par une masse. Le HX711 est un convertisseur analogique-numérique (ADC) qui amplifie et lit les signaux analogiques de faible amplitude générés par la cellule de charge. Ici, le dispositif utilise deux capteurs de masse différents : l’un de 1 kg et l’autre de 20 kg pour le réservoir.
 
 \begin{figure}[H]
 	\centering
@@ -132,27 +129,26 @@ Ce projet a comme partie électronique les composants suivant : pour le microcon
 	\caption{Brochage du HX711}
 \end{figure}
 
-\item \underline{\textbf{le servo-moteur}:} C'est un moteur contrôlé en position, utilisé pour effectuer des rotations précises dans une plage définie (souvent 0° à 180°). Il reçoit un signal PWM (modulation de largeur d’impulsion), la largeur de l’impulsion détermine ainsi l’angle de rotation. Le servo-moteur servira d'ouverture de vanne dans notre cas.
+\item \underline{\textbf{Le servomoteur} :} C'est un moteur contrôlé en position, utilisé pour effectuer des rotations précises dans une plage définie (souvent de 0° à 180°). Il reçoit un signal PWM (modulation de largeur d’impulsion), dont la largeur détermine l’angle de rotation. Le servomoteur servira à ouvrir la vanne dans notre cas.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{2.png}
-	\caption{Brochage du servo-moteur}
+	\caption{Brochage du servomoteur}
 \end{figure}
 
-\item  \underline{\textbf{Communication entre le microcontrôleur et le websocket}:} Pour récuperer les données depuis Firebase et le transmettre à l'ESP32, nous avons mis en place un serveur websocket, qui permet entre outre de recevoir des messages contenant des données depuis l'ESP32.  Le serveur websocket va ensuite les tranférer les données  vers  Real Time Database de Firebase.
+\item \underline{\textbf{Communication entre le microcontrôleur et le WebSocket} :} Pour récupérer les données depuis Firebase et les transmettre à l'ESP32, nous avons mis en place un serveur WebSocket, qui permet entre autres de recevoir des messages contenant des données depuis l'ESP32. Le serveur WebSocket transfère ensuite ces données vers la Realtime Database de Firebase.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=0.5]{4.png}
-	\caption{Communication entre Firebase, le serveur websocket et l'ESP32}
+	\caption{Communication entre Firebase, le serveur WebSocket et l'ESP32}
 \end{figure}
 
 \end{itemize}
 
-
 \section{Schéma d'ensemble du circuit}
-Malheureusement, pas de beaucoup de logiciels peuvent simuler l'ESP32 et montrer précisement le schéma électronique du projet. Néanmoins, la platforme \textit{Wokwi}, permet cela, c'est une plateforme web qui permet de simuler à quelques détails près L'ESP32, et il nous fournit un schéma d'ensemble avec.\\[0.3cm]
+Malheureusement, peu de logiciels permettent de simuler précisément l'ESP32 et de représenter le schéma électronique du projet. Néanmoins, la plateforme \textit{Wokwi} permet cela. C’est une plateforme web qui permet de simuler, à quelques détails près, l’ESP32 et fournit un schéma d'ensemble.
 
 \begin{figure}[H]
 	\centering
